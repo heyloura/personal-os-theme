@@ -1,0 +1,70 @@
+<!------------------->
+<!-- DESKTOP ICONS -->
+<!------------------->
+<a href="#!" evt-click="open-window" evt-target="modal-index" class="app-button broswer-button">Homepage</a>
+
+<!----------------->
+<!-- MOBILE MENU -->
+<!----------------->
+<div class="window hide glass" id="modal-menu" role="dialog" aria-labelledby="dialog-menu-title">
+    <div class="hl-dot hl-right-bottom"></div>
+    <div class="title-bar" id="modal-menu-titlebar">
+        <div class="title-bar-text" id="dialog-menu-title">📲 windows (2)</div>
+        <div class="title-bar-controls">
+            <button aria-label="Minimize" evt-click="minimize-window"></button>
+        </div>
+    </div>
+    <div class="window-body has-space has-scrollbar menu-window">
+        <button evt-click="toggle-window" evt-target="modal-index">🌐 index.html</button>
+        <button evt-click="toggle-window" evt-target="modal-change-log">📝 change log</button>
+    </div>
+</div>
+
+<!---------------->
+<!-- CHANGE LOG -->
+<!---------------->
+<div class="window glass" id="modal-change-log" role="dialog" aria-labelledby="dialog-change-log-title">
+    <div class="hl-dot hl-right-bottom"></div>
+    <div class="title-bar" id="modal-change-log-titlebar">
+        <div class="title-bar-text" id="dialog-change-log-title">Change log</div>
+        <div class="title-bar-controls">
+            <button aria-label="Minimize" evt-click="minimize-window"></button>
+            <button aria-label="Maximize" evt-click="maximize-window"></button>
+            <button aria-label="Close" evt-click="close-window"></button>
+        </div>
+    </div>
+    <div class="window-body has-space has-scrollbar change-log">
+        <div>
+            <div style="display:flex;border-bottom: 1px solid var(--button-border-color);">
+                <img style="margin-right:0.5em;max-width:20px;height:20px" src="https://pix.crd.co/assets/images/gallery19/499e6e11_original.gif?v=daeffd27" /> 
+                <div>
+                    <p style="margin-top:0;"><a href="#">April 12th 2025</a></p>
+                    <p class="change-log-item" style="margin-top:0;"><img src="https://cdn.uploads.micro.blog/88328/2025/f8d11b1412.png" />New digital garden theme :)</p>
+                </div>
+            </div>
+            
+        </div>
+        
+    </div>
+</div>
+
+<!---------------->
+<!-- START MENU -->
+<!---------------->
+<div class="window glass hide start-window" id="modal-start" role="dialog">
+    <div class="title-bar" id="modal-start-titlebar" style="position:relative;">
+        <div class="title-bar-controls start-title-bar-controls">
+            <img class="logged-in-avatar" src="https://heyloura.com/uploads/2024/3a04add34b.png" width="60" height="60" alt="Auto-generated description: A pixel art character with long brown hair stands outdoors at night under a starry sky with purple clouds.">
+        </div>
+    </div>
+    <div class="window-body has-space half">
+        <p>Start menu here...</p>
+    </div>
+    <div class="start-menu-items">
+        <button>Documents</button><br/>
+        <button>Pictures</button><br/>
+        <button>Audio</button><br/>
+        <button>Video</button><br/><br/>
+        <button>Credits</button><br/>
+    </div>
+</div>

@@ -1,0 +1,81 @@
+{{ define "main" }}
+<div class="window active glass" id="modal-index" role="dialog" aria-labelledby="dialog-index-title">
+    <div class="hl-dot hl-right-bottom"></div>
+    <div class="title-bar" id="modal-index-titlebar">
+        <div class="title-bar-text" id="dialog-index-title">https://heyloura.com/index.html</div>
+        <div class="title-bar-controls">
+            <button aria-label="Minimize" evt-click="minimize-window"></button>
+            <button aria-label="Maximize" evt-click="maximize-window"></button>
+            <button aria-label="Close" evt-click="close-window"></button>
+        </div>
+    </div>
+    <div class="window-body has-space blog has-scrollbar">
+        <div class="blog-title">
+            <div style="text-align:center;" class="wordart italic-outline"><span class="text">Hey Loura!</span></div>
+        </div>
+        <div class="blog-nav" style="display:flex;margin: 11px auto;max-width:80ch;">
+            <a href="/"><img src="https://pix.crd.co/assets/images/gallery02/5de32b44_original.gif?v=daeffd27" />Home</a>
+            <a href="/"><img src="https://pix.crd.co/assets/images/gallery04/b92c7cd9_original.gif?v=daeffd27" />About</a>
+            <a href="/"><img src="https://pix.crd.co/assets/images/gallery07/f61ca01c_original.png?v=daeffd27" />?</a>
+            <a href="/"><img src="https://pix.crd.co/assets/images/gallery08/ee89ba04_original.gif?v=daeffd27" />?</a>
+            <a href="/"><img src="https://pix.crd.co/assets/images/gallery12/8599276f_original.gif?v=daeffd27" />Archive</a>
+            <a href="/"><img src="https://pix.crd.co/assets/images/gallery27/2750a332_original.gif?v=daeffd27" />Search</a>
+        </div>
+        <div style="display:flex;max-width:80ch;margin: 0px auto;">
+            <div class="blog-nav-simple" style="margin-right: 6px;padding-right:6px;">
+                <p><b>Interests</b></p>
+                <a href="/"><img src="https://pix.crd.co/assets/images/gallery02/5de32b44_original.gif?v=daeffd27" />Home</a>
+                <a href="/"><img src="https://pix.crd.co/assets/images/gallery04/b92c7cd9_original.gif?v=daeffd27" />About</a>
+                <a href="/"><img src="https://pix.crd.co/assets/images/gallery07/f61ca01c_original.png?v=daeffd27" />?</a>
+                <a href="/"><img src="https://pix.crd.co/assets/images/gallery08/ee89ba04_original.gif?v=daeffd27" />?</a>
+                <a href="/"><img src="https://pix.crd.co/assets/images/gallery12/8599276f_original.gif?v=daeffd27" />Archive</a>
+                <a href="/"><img src="https://pix.crd.co/assets/images/gallery27/2750a332_original.gif?v=daeffd27" />Search</a>
+            </div>
+            <div class="has-space">
+                <p>Thanks for visiting my website! Or as I like to call it, my web desktop.
+                    This is a space that I play around with web technologies, share my thoughts 
+                    and my half-baked projects. Feel free to explore by clicking around.
+                </p>
+                <div class="blog-page">
+                    <div class="h-feed">
+                        <p><b>Some recently created or updated posts</b></p>
+                        {{ $pages := (where .Site.Pages.ByLastmod.Reverse "Type" "post") }}
+                        {{- $paginator := .Paginate $pages (index .Site.Params "archive-paginate" | default 6) }}
+                        <ul>
+                        {{- range $paginator.Pages  }}
+                            <li><a swap-target=".blog-page" swap-history="true" href="{{ .Permalink }}">{{ .Title }}</a></li>
+                        {{ end }}
+                        </ul>
+                    </div>
+                </div>
+                <p>I have a lot of interests and this place is a catch all. If you prefer
+                    to only follow a couple topics then check out my <a href="/feeds">feeds</a> page for category specific RSS feeds. 
+                </p>
+                <aside>
+                    <div style="text-align:center;">
+                        <a style="flex: 1 0 0;" target="_blank" href="https://indieweb.org/">
+                        <img src="https://heyloura.com/uploads/2022/4af033892a.png" alt="IndieWebCamp" style="image-rendering:pixelated;">
+                        </a>
+                        <img src="https://heyloura.com/uploads/2022/04d164b1ac.png" alt="Webmention" style="image-rendering:pixelated;">
+                        <img src="https://heyloura.com/uploads/2022/927e2836c9.png" alt="Microformats" style="image-rendering:pixelated;">
+                    </div>
+                    <header><h5>Other web spaces</h5></header>
+                    <ul style="text-align: left;">
+                        <li><a target="_blank" href="https://micro.blog/heyloura">✴️ Micro.blog account</a></li>
+                        <li><a target="_blank" href="gemini://capsule.heyloura.com">🚀 Hosted on the Gemini Protocol</a></li>
+                        <li><a target="_blank" href="https://micro.blog/heyloura?remote_follow=1">💫 @heyloura@heyloura.com</a></li>      
+                        <li><a target="_blank" href="https://github.com/heyloura">🐈‍⬛ Github Projects</a></li>
+                    </ul>
+                    <header><h5>Web rings</h5></header>
+                    <ul>
+                        <li>Indieweb <a target="_blank" href="https://xn--sr8hvo.ws">🕸️💍</a>
+                        <a target="_blank" href="https://xn--sr8hvo.ws/%F0%9F%91%8D%F0%9F%93%8A%F0%9F%92%85/previous">⬅️</a>
+                        <a target="_blank" href="https://xn--sr8hvo.ws/%F0%9F%91%8D%F0%9F%93%8A%F0%9F%92%85/next">➡️</a></li>
+                    </ul>
+                        
+                </aside>
+            </div>
+        </div>
+    </div>
+</div>
+{{ end }}
