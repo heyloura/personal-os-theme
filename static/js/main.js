@@ -110,7 +110,7 @@ function makePopup(id, title, content, footer = '', statusbar = '') {
     return document.getElementById('modal-' + id);
 }
 function makeMoveableResizable(id) {
-    let initX, initY, firstX, firstY, initHeight, initWidth, mouseX, mouseY;
+    let initX, initY, firstX, firstY;
     makeMoveable('modal-' + id + '-titlebar', initX, initY, firstX, firstY);
     let rightBottom = document.getElementById('modal-' + id).querySelector(".hl-right-bottom");
     rightBottom.addEventListener('mousedown', e => resizeHandler(document.getElementById('modal-' + id), e, false, false, true, true));
@@ -217,7 +217,7 @@ function makeMoveableResizable(id) {
         var object = document.getElementById(id);
         object.addEventListener('mousedown', function(e) { 
             e.preventDefault();
-            if(e.target.classList.contains('title-bar')) {
+            if(e.target.classList.contains('title-bar') || e.target.classList.contains('title-bar-text')) {
                 initX = this.parentNode.offsetLeft;
                 initY = this.parentNode.offsetTop;
                 firstX = e.pageX;
