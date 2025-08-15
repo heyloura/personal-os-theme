@@ -40,6 +40,7 @@ body {
 .has-scrollbar{overflow-y:scroll;}
 .has-footer-statusbar{height: calc(100% - 100px);}
 .title-bar{cursor:move;}
+.title-bar-text{white-space: nowrap;overflow: hidden;text-overflow: ellipsis;}
 #bottom{height:32px;width:100%;position:fixed;bottom:0;border-radius:0;box-shadow:unset;border:0;}
 #bottom>.title-bar{border-radius:0;padding-top: 4px;cursor: default;}
 #bottom p{margin: 0;}
@@ -47,7 +48,11 @@ body {
 .app-button:hover {text-decoration: none;color: white;text-shadow: #3c2533;background-color: rgba(0, 0, 0, 0.5)}
 .broswer-button{background: var(--browser-img);background-size: 50%;background-repeat: no-repeat;background-position: top;
 height: 55px;width: 75px;display: table-cell;text-decoration: none;color: white;vertical-align: bottom;text-align: center;}
-
+pre {overflow-wrap: anywhere;
+    white-space: pre-wrap;}
+h1{font-size:1.5em;}
+h2,h3,h4{font-size:1.25em;}
+h5,h6{font-size:1em;}
 .blog .blog-nav > a, .blog .blog-nav-simple > a {
     display: flex;
     flex-direction: column;
