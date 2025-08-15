@@ -267,7 +267,13 @@ document.addEventListener("click", async (event) => {
     event.preventDefault();
     if(event.target.getAttribute('evt-click') == 'show-login') {
         removeActiveWindow();
-        
+        document.getElementById('login-dialog').showModal();
+        return;
+    }
+    if(event.target.getAttribute('evt-click') == 'close-login') {
+        removeActiveWindow();
+        document.getElementById('switch-user').innerHTML = 'Guest';
+        document.getElementById('login-dialog').close();
         return;
     }
     if(event.target.getAttribute('evt-click') == 'toggle-window') {

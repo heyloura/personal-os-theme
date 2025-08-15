@@ -48,8 +48,7 @@ body {
 .app-button:hover {text-decoration: none;color: white;text-shadow: #3c2533;background-color: rgba(0, 0, 0, 0.5)}
 .broswer-button{background: var(--browser-img);background-size: 50%;background-repeat: no-repeat;background-position: top;
 height: 55px;width: 75px;display: table-cell;text-decoration: none;color: white;vertical-align: bottom;text-align: center;}
-pre {overflow-wrap: anywhere;
-    white-space: pre-wrap;}
+pre {overflow-wrap: anywhere;white-space: pre-wrap;}
 h1{font-size:1.5em;}
 h2,h3,h4{font-size:1.25em;}
 h5,h6{font-size:1em;}
@@ -128,6 +127,8 @@ h5,h6{font-size:1em;}
 @media (max-width: 767px) {
     .fab {display: inline-block;}
     .app-buttons button:not(.fab) {display:none;}
+    .active{border:none}
+    .hl-dot{display:none}
 }
 ::backdrop {
   background-image: linear-gradient(
