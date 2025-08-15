@@ -265,6 +265,11 @@ document.addEventListener("click", async (event) => {
         return;
     }
     event.preventDefault();
+    if(event.target.getAttribute('evt-click') == 'show-login') {
+        removeActiveWindow();
+        
+        return;
+    }
     if(event.target.getAttribute('evt-click') == 'toggle-window') {
         const target = document.getElementById(event.target.getAttribute('evt-target'));
         removeActiveWindow();
