@@ -130,6 +130,14 @@ h5,h6{font-size:1em;}
     .active{border:none}
     .hl-dot{display:none}
 }
+dialog{
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    position: absolute;
+}
 ::backdrop {
   background-image: linear-gradient(
     45deg,
@@ -138,5 +146,5 @@ h5,h6{font-size:1em;}
     dodgerblue,
     green
   );
-  opacity: 0.75;
+  opacity: 0.85;
 }
