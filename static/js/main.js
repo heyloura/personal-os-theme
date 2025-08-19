@@ -288,6 +288,7 @@ document.addEventListener("click", async (event) => {
         return;
     }
     if(event.target.getAttribute('evt-click') == 'process-login') {
+        const token = document.getElementById('password').value;
         localStorage.setItem('hl-token', token);
         await processLogin();
         document.getElementById('login-dialog').close();
