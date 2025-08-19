@@ -1,7 +1,11 @@
 "use strict";
+const proxy = 'https://able-hawk-60.deno.dev';
 //
 // Set up the page
 //
+if(localStorage.getItem('hl-token')) {
+    processLogin();
+}
 document.querySelectorAll('.change-log-item img').forEach((item, i) => {
     item.insertAdjacentHTML('afterend', `&nbsp;<button evt-click="show-image" data-src="${item.getAttribute("src")}"">Screenshot ${i+1}</button>&nbsp;`);
     item.remove();
@@ -55,6 +59,13 @@ function dom_load() {
 //
 // --- Helper functions
 //
+function processLogin() {
+    let profilePic = document.querySelector('.logged-in-avatar');
+    //show spinner?
+    let fetching = await fetch(`${proxy}/user`, { method: "GET", headers: { "Authorization": "Bearer " + localStorage.getItem('hl-token') } } );
+    const results = await fetching.json();
+    console.log(results);
+}
 function removeActiveWindow() {
     const activeWindow = document.querySelector('.window.active');
     if(activeWindow){
@@ -273,6 +284,12 @@ document.addEventListener("click", async (event) => {
     if(event.target.getAttribute('evt-click') == 'close-login') {
         removeActiveWindow();
         document.getElementById('switch-user').innerHTML = 'Guest';
+        document.getElementById('login-dialog').close();
+        return;
+    }
+    if(event.target.getAttribute('evt-click') == 'process-login') {
+        localStorage.setItem('hl-token', token);
+        processLogin();
         document.getElementById('login-dialog').close();
         return;
     }
