@@ -60,7 +60,7 @@
         {{ range .Site.Params.plugins_js }}
         <script src="{{ . }}"></script>
         {{ end }}
-        <script src="/js/main.js" ></script>
+        <script type="module" src="/js/main.js" ></script>
         <script src="/js/prism.js"></script>
         <script>
             window.Prism = window.Prism || {};
