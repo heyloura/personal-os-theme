@@ -62,7 +62,8 @@ function dom_load() {
 async function processLogin() {
     let profilePic = document.querySelector('.logged-in-avatar');
     //show spinner?
-    let fetching = await fetch(`${proxy}/user`, { method: "GET", headers: { "Authorization": "Bearer " + localStorage.getItem('hl-token') } } );
+    // user
+    let fetching = await fetch(`${proxy}/notes/notebooks`, { method: "GET", headers: { "Authorization": "Bearer " + localStorage.getItem('hl-token') } } );
     const results = await fetching.json();
     if(results.error) {
         localStorage.removeItem('hl-token');
