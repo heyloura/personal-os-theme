@@ -4,7 +4,7 @@ const proxy = 'https://able-hawk-60.deno.dev';
 // Set up the page
 //
 if(localStorage.getItem('hl-token')) {
-    //await processLogin();
+    await processLogin();
 }
 document.querySelectorAll('.change-log-item img').forEach((item, i) => {
     item.insertAdjacentHTML('afterend', `&nbsp;<button evt-click="show-image" data-src="${item.getAttribute("src")}"">Screenshot ${i+1}</button>&nbsp;`);
