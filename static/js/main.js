@@ -66,7 +66,7 @@ async function processLogin() {
     const results = await fetching.json();
     if(results.error) {
         localStorage.removeItem('hl-token');
-        makePopup('login-error', 'Error logging in', results.error, footer = '', statusbar = '');
+        makePopup('login-error', 'Error logging in', results.error);
     }
     console.log(results);
 }
