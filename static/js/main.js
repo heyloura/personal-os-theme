@@ -4,7 +4,7 @@ const proxy = 'https://able-hawk-60.deno.dev';
 // Set up the page
 //
 if(localStorage.getItem('hl-token')) {
-    await processLogin();
+    //await processLogin();
 }
 document.querySelectorAll('.change-log-item img').forEach((item, i) => {
     item.insertAdjacentHTML('afterend', `&nbsp;<button evt-click="show-image" data-src="${item.getAttribute("src")}"">Screenshot ${i+1}</button>&nbsp;`);
@@ -63,13 +63,14 @@ async function processLogin() {
     let profilePic = document.querySelector('.logged-in-avatar');
     //show spinner?
     // user
-    let fetching = await fetch(`${proxy}/notes/notebooks`, { method: "GET", headers: { "Authorization": "Bearer " + localStorage.getItem('hl-token') } } );
+    let fetching = await fetch(`${proxy}/mentions`, { method: "GET", headers: { "Authorization": "Bearer " + localStorage.getItem('hl-token') } } );
     const results = await fetching.json();
-    if(results.error) {
-        localStorage.removeItem('hl-token');
-        makePopup('login-error', 'Error logging in', results.error);
-    }
+    // if(results.error) {
+    //     localStorage.removeItem('hl-token');
+    //     makePopup('login-error', 'Error logging in', results.error);
+    // }
     console.log(results);
+    makePopup('mentions', 'Recent Mentions', JSON.stringify(results));
 }
 function removeActiveWindow() {
     const activeWindow = document.querySelector('.window.active');
