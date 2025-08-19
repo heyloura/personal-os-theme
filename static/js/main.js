@@ -64,6 +64,10 @@ async function processLogin() {
     //show spinner?
     let fetching = await fetch(`${proxy}/user`, { method: "GET", headers: { "Authorization": "Bearer " + localStorage.getItem('hl-token') } } );
     const results = await fetching.json();
+    if(results.error) {
+        localStorage.removeItem('hl-token');
+        makePopup('login-error', 'Error logging in', results.error, footer = '', statusbar = '');
+    }
     console.log(results);
 }
 function removeActiveWindow() {
