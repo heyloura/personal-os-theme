@@ -148,3 +148,13 @@ dialog{
   );
   opacity: 0.85;
 }
+.hey-loura-avatar {
+    padding: 4px;
+}
+.hey-loura-avatar-container {
+    box-shadow: 0px 1px 0 0px #fffa, 1px -1px 0 #fffa, -1px 0 0 #fffa;
+    border-radius: var(--control-border-radius);
+    border-top: unset;
+    border: var(--window-border) var(--control-border-color);
+    margin: 0px auto;
+}
