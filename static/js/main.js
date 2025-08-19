@@ -64,7 +64,7 @@ async function processLogin() {
     //show spinner?
     // user
     let fetching = await fetch(`${proxy}/mentions`, { method: "GET", headers: { "Authorization": "Bearer " + localStorage.getItem('hl-token') } } );
-    const results = await fetching.json();
+    const results = await fetching.text();
     // if(results.error) {
     //     localStorage.removeItem('hl-token');
     //     makePopup('login-error', 'Error logging in', results.error);
