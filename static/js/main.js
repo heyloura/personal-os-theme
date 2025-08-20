@@ -72,7 +72,11 @@ function unsetChildrenReactive(elId) {
     });
 }
 
-window.render = (key, value) => window[key].proxy.value = value
+function render(key, value) {
+    if(window[key]) {
+        window[key].proxy.value = value
+    }
+}
 
 //
 // --- Swap.js (AJAX-style navigation)
@@ -555,10 +559,10 @@ document.addEventListener("click", async (event) => {
             // maybe have it as a template in HTML and then pull it in?
             alert('load blog')
         } else if(target == 'notes') {
-            window.render(`${id}-content`, `<progress></progress>`);
+            render(`${id}-content`, `<progress></progress>`);
             let fetching = await fetch(`${proxy}/notes/notebooks`, { method: "GET", headers: { "Authorization": "Bearer " + localStorage.getItem('hl-token') } } );
             const results = await fetching.text();
-            window.render(`${id}-content`, results);
+            render(`${id}-content`, results);
         }
     }
     if(event.target.getAttribute('evt-click') == 'show-computer') {
@@ -637,7 +641,7 @@ document.addEventListener("click", async (event) => {
                 button.classList.add('hide');
             } 
         }
-        window.render(`window-count`, document.querySelector('.window').length - document.querySelector('.window.hide').length);
+        render(`window-count`, document.querySelector('.window').length - document.querySelector('.window.hide').length);
         removeActiveWindow();
         return;
     }
@@ -686,6 +690,6 @@ function addWindowButton(target, title) {
     }
     document.querySelector('.app-buttons').insertAdjacentHTML('beforeend',`<button evt-click="toggle-window" evt-target="modal-${target}">${title}</button>`);
     document.querySelector(`.app-buttons button[evt-target="modal-${target}"]`).focus();
-    window.render(`window-count`, document.querySelector('.window').length - document.querySelector('.window.hide').length);
+    render(`window-count`, document.querySelector('.window').length - document.querySelector('.window.hide').length);
     //document.querySelector('.fab').innerHTML = `📲 windows (${document.querySelectorAll('.app-buttons button').length - 1})`;
 }
