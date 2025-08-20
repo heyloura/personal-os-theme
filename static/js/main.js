@@ -279,9 +279,9 @@ function makePopup(id, title, content, footer = '', statusbar = '', scrollbar = 
                     '<button aria-label="Maximize" evt-click="maximize-window"></button>' +
                     '<button aria-label="Close" evt-click="close-window"></button>' +
                 '</div>' +
-                addressbar +
             '</div>' +
-            '<div id="modal-' + id + '-content" class="window-body ' + (addressbar ? 'has-menu-addr' : '') + ' ' + (scrollbar ? '' : 'has-scrollbar') + ' ' + ( statusbar && footer ? 'has-footer-statusbar' : '' ) + ' ' + ( statusbar ? 'has-statusbar' : '' ) + ' ' + ( footer ? 'has-footer' : '' ) + '">' + content + '</span></div>' +
+            addressbar +
+            '<div id="modal-' + id + '-content" class="window-body ' + (addressbar ? 'has-menu-addr' : '') + ' ' + (scrollbar ? 'has-scrollbar' : '') + ' ' + ( statusbar && footer ? 'has-footer-statusbar' : '' ) + ' ' + ( statusbar ? 'has-statusbar' : '' ) + ' ' + ( footer ? 'has-footer' : '' ) + '">' + content + '</span></div>' +
             (footer ? '<footer>' + footer + '</footer>' : '') +
             (statusbar ? '<div class="status-bar">' + statusbar + '</div>' : '') +
         '</div>'
