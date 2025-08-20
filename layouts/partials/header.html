@@ -9,7 +9,7 @@
 <div class="window hide glass" id="modal-menu" role="dialog" aria-labelledby="dialog-menu-title">
     <div class="hl-dot hl-right-bottom"></div>
     <div class="title-bar" id="modal-menu-titlebar">
-        <div class="title-bar-text" id="dialog-menu-title">📲 windows (2)</div>
+        <div class="title-bar-text" id="dialog-menu-title">📲 windows (<span reactive="window-count">2</span>)</div>
         <div class="title-bar-controls">
             <button aria-label="Minimize" evt-click="minimize-window"></button>
         </div>
@@ -62,10 +62,10 @@
     </div>
     <div class="start-menu-items">
         <button id="switch-user" evt-click="show-login">Guest</button><br/>
-        <button>Documents</button><br/>
-        <button>Pictures</button><br/>
-        <button>Audio</button><br/>
-        <button>Video</button><br/><br/>
+        <button evt-click="show-computer" evt-target="documents">Documents</button><br/>
+        <button evt-click="show-computer" evt-target="pictures">Pictures</button><br/>
+        <button evt-click="show-computer" evt-target="audio">Audio</button><br/>
+        <button evt-click="show-computer" evt-target="video">Video</button><br/><br/>
         <button>Credits</button><br/>
     </div>
 </div>

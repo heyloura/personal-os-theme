@@ -12,6 +12,63 @@ document.querySelectorAll('.change-log-item img').forEach((item, i) => {
 });
 
 //
+// --- Quick reactivity
+//
+const unreact = document.querySelectorAll.bind(document)
+
+document.addEventListener('DOMContentLoaded', function () {
+    unreact('[reactive]').forEach(el => {
+    setReactiveProxy(el);
+    })
+})
+
+function setReactiveProxy(el) {                 
+    if(el.attributes['reactive'] != undefined && el.attributes['reactive'] != null)
+    {
+        const key = el.attributes['reactive'].value
+
+        if (!window[key]){
+            window[key] = { elements: [], proxy: null }
+        }
+        if (!window[key].elements) {
+            window[key].elements = [];
+        }
+        window[key].elements.push(el);
+        window[key].proxy = new Proxy({ value: el.innerText }, {
+            set(obj, prop, value) {
+                window[key].elements.forEach(el => el.innerHTML = value)
+                return true
+            }
+            });
+    }
+}
+
+function removeReactiveProxy(el) {                 
+    if(el.attributes['reactive'] != undefined && el.attributes['reactive'] != null)
+    {
+        const key = el.attributes['reactive'].value
+        window[key] = { elements: [], proxy: null };
+    }
+}
+
+function setChildrenReactive(elId) {
+    let children = $Id(elId).querySelectorAll(":scope [reactive]");
+    children.forEach(el => {
+        
+        setReactiveProxy(el);
+    });
+}
+
+function unsetChildrenReactive(elId) {
+    let children = $Id(elId).querySelectorAll(":scope [reactive]");
+    children.forEach(el => {
+        removeReactiveProxy(el);
+    });
+}
+
+window.render = (key, value) => window[key].proxy.value = value
+
+//
 // --- Swap.js (AJAX-style navigation)
 //
 var loaders = {}, unloaders = {};
@@ -69,7 +126,6 @@ async function processLogin() {
     //     localStorage.removeItem('hl-token');
     //     makePopup('login-error', 'Error logging in', results.error);
     // }
-    console.log(results);
     makePopup('mentions', 'Recent Mentions', JSON.stringify(results));
 }
 function removeActiveWindow() {
@@ -96,6 +152,115 @@ const comparer = (idx, asc) => (a, b) => ((v1, v2) =>
 //
 // Make window popup
 //
+function makeComputerPopup(type, content) {
+    let id = `computer-${type}-${Date.now()}`;
+    makePopup(id, '🪟 Computer', `
+        <div class="addrbar hassearch">
+                <div class="navigation">
+                    <button class="button round nav-active">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"/>
+                        </svg>
+                    </button>
+                    <button class="button round">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"/>
+                        </svg>
+                    </button>
+                </div>
+                <div class="addr">
+                    <div>💻</div>
+                    <div>Computer</div>
+                    <div>System (C:)</div>
+                    <div>Users</div>
+                    <div>Guest</div>
+                    <div>Documents</div>
+                </div>
+                <form>
+                    <input type="search" placeholder="Search Documents" class="winui-searchbox">
+                </form>
+            </div>
+            <div class="window-body has-menu-addr">
+                <ul role="menubar" class="can-hover">
+                    <li role="menuitem" tabindex="0" aria-haspopup="true">
+                        File
+                        <ul role="menu">
+                        <li role="menuitem">
+                            <a href="#menubar">
+                            Open <span>Ctrl+O</span>
+                            </a>
+                        </li>
+                        <li role="menuitem">
+                            <a href="#menubar">
+                            Save <span>Ctrl+S</span>
+                            </a>
+                        </li>
+                        <li role="menuitem" class="has-divider">
+                            <a href="#menubar">
+                            Save As... <span>Ctrl+Shift+S</span>
+                            </a>
+                        </li>
+                        <li role="menuitem"><a href="#menubar">Exit</a></li>
+                        </ul>
+                    </li>
+                    <li role="menuitem" tabindex="0" aria-haspopup="true">
+                        Edit
+                        <ul role="menu">
+                        <li role="menuitem"><a href="#menubar">Undo</a></li>
+                        <li role="menuitem"><a href="#menubar">Copy</a></li>
+                        <li role="menuitem"><a href="#menubar">Cut</a></li>
+                        <li role="menuitem" class="has-divider"><a href="#menubar">Paste</a></li>
+                        <li role="menuitem"><a href="#menubar">Delete</a></li>
+                        <li role="menuitem"><a href="#menubar">Find...</a></li>
+                        <li role="menuitem"><a href="#menubar">Replace...</a></li>
+                        <li role="menuitem"><a href="#menubar">Go to...</a></li>
+                        </ul>
+                    </li>
+                    <li role="menuitem" tabindex="0" aria-haspopup="true">
+                        View
+                        <ul role="menu">
+                        <li role="menuitem" tabindex="0" aria-haspopup="true">
+                            Zoom
+                            <ul role="menu">
+                            <li role="menuitem"><button>Zoom In</button></li>
+                            <li role="menuitem"><button>Zoom Out</button></li>
+                            </ul>
+                        </li>
+                        <li role="menuitem"><a href="#menubar">Status Bar</a></li>
+                        </ul>
+                    </li>
+                    <li role="menuitem" tabindex="0" aria-haspopup="true">
+                        Help
+                        <ul role="menu">
+                        <li role="menuitem"><a href="#menubar">View Help</a></li>
+                        <li role="menuitem"><a href="#menubar">About</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <div style="display:flex;height:calc(100% - 29px);align-items: stretch;">
+                    <div class="has-space has-scrollbar">
+                        <ul class="tree-view is-bright" style="height:100%">
+                            <li>
+                                <details open>
+                                <summary>⭐ Quick Access</summary>
+                                <ul>
+                                    <li>🪟 Desktop</li>
+                                    <li>⬇️ Downloads</li>
+                                    <li>📂 Documents</li>
+                                    <li>🎙️ Audio</li>
+                                    <li>🖼️ Pictures</li>
+                                    <li>📽️ Video</li>
+                                </ul>
+                                </details>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="has-space has-scrollbar" style="flex-grow: 1;">
+                        ${content}
+                    </div>
+                </div>
+            </div>`)
+}
 function makePopup(id, title, content, footer = '', statusbar = '') {
     // if it already exits, open and make active.
     if(document.getElementById('modal-' + id)) {
@@ -123,6 +288,14 @@ function makePopup(id, title, content, footer = '', statusbar = '') {
 
     removeActiveWindow();
     makeMoveableResizable(id);
+    let buttonId = id;
+    let buttonTitle = title;
+    if(event.target.getAttribute('data-src')) {
+        buttonId = buttonId + event.target.getAttribute('data-src');
+        // TODO extend to select image based on src file extension
+        buttonTitle = `🖼️ ${event.target.getAttribute('data-src').split('/').pop()}`
+    }
+    addWindowButton(buttonId, buttonTitle);
     console.log(document.getElementById('modal-' + id));
     return document.getElementById('modal-' + id);
 }
@@ -274,7 +447,9 @@ document.addEventListener("click", async (event) => {
         const start = document.getElementById('modal-start');
         if(window) {
             window.classList.add('active');
-            document.querySelector(`button[evt-target="${window.getAttribute('id')}"]`).focus();
+            if(document.querySelector(`button[evt-target="${window.getAttribute('id')}"]`)) {
+                document.querySelector(`button[evt-target="${window.getAttribute('id')}"]`).focus();
+            }
         }
         if(window != start) {
             start.classList.add('hide');
@@ -300,6 +475,12 @@ document.addEventListener("click", async (event) => {
         document.getElementById('login-dialog').close();
         return;
     }
+    if(event.target.getAttribute('evt-click') == 'show-computer') {
+        const target = document.getElementById(event.target.getAttribute('evt-target'));
+        makeComputerPopup(target, `<h1>Hello World</h1>`);
+        return;
+    }
+    //show-computer
     if(event.target.getAttribute('evt-click') == 'toggle-window') {
         const target = document.getElementById(event.target.getAttribute('evt-target'));
         removeActiveWindow();
@@ -316,7 +497,9 @@ document.addEventListener("click", async (event) => {
         const button = document.querySelector(`button[evt-target="${modal.getAttribute('id')}"]`);
         if(!modal.classList.contains('hide')) {
             modal.classList.add('hide'); 
-            button.classList.add('hide'); 
+            if(button) {
+                button.classList.add('hide');
+            } 
         }
         removeActiveWindow();
         return;
@@ -327,8 +510,10 @@ document.addEventListener("click", async (event) => {
         const button = document.querySelector(`button[evt-target="${event.target.getAttribute('evt-target')}"]`);
         target.classList.remove('hide'); 
         target.classList.add('active');
-        button.classList.remove('hide');
-        button.focus();
+        if(button) {
+            button.classList.remove('hide');
+            button.focus();
+        }
         return;
     }
     if(event.target.getAttribute('evt-click') == 'maximize-window') {
@@ -341,7 +526,9 @@ document.addEventListener("click", async (event) => {
         removeActiveWindow();
         modal.classList.add('active');
         const button = document.querySelector(`button[evt-target="${modal.getAttribute('id')}"]`);
-        button.focus();
+        if(button) {
+            button.focus();
+        }
     }
     if(event.target.getAttribute('evt-click') == 'minimize-window') {
         const modal = event.target.closest('[role="dialog"]');
@@ -352,9 +539,6 @@ document.addEventListener("click", async (event) => {
         const modal = makePopup('enlarge-' + event.target.getAttribute('data-src'), event.target.getAttribute('data-src').split('/').pop(), '<img class="enlarged" src="'+event.target.getAttribute('data-src')+'" />');
         modal.style.width = 'min(100vw, '+modal.querySelector('img').naturalWidth+'px)';
         modal.style.height = 'min(80vh, '+modal.querySelector('img').naturalHeight+'px)';
-        // add button to the bottom bar
-        addWindowButton('enlarge-' + event.target.getAttribute('data-src'), `🖼️ ${event.target.getAttribute('data-src').split('/').pop()}` );
-        
     }
 });
 
