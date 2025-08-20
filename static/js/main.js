@@ -15,13 +15,19 @@ document.querySelectorAll('.change-log-item img').forEach((item, i) => {
 // --- Quick reactivity
 // concept from https://medium.com/@Mikepicker/unravel-reactivity-in-16-lines-of-vanilla-js-af13b185a733
 //
-const unreact = document.querySelectorAll.bind(document)
-
-document.addEventListener('DOMContentLoaded', function () {
-    unreact('[reactive]').forEach(el => {
-    setReactiveProxy(el);
-    })
-})
+if (/complete|interactive|loaded/.test(document.readyState)) {
+    const unreact = document.querySelectorAll.bind(document)
+        unreact('[reactive]').forEach(el => {
+            setReactiveProxy(el);
+    });
+} else {
+    document.addEventListener('DOMContentLoaded', function () {
+        const unreact = document.querySelectorAll.bind(document)
+        unreact('[reactive]').forEach(el => {
+            setReactiveProxy(el);
+        });
+    });
+}
 
 function setReactiveProxy(el) {                 
     if(el.attributes['reactive'] != undefined && el.attributes['reactive'] != null)
@@ -256,7 +262,7 @@ function makeComputerPopup(type, content) {
                 </div>
             </div>
             `.replaceAll('{{id}}',id));
-    setChildrenReactive(id);
+    setChildrenReactive(`modal-${id}`);
 }
 function makePopup(id, title, content, footer = '', statusbar = '', scrollbar = true, addressbar = '') {
     // if it already exits, open and make active.
