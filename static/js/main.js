@@ -53,14 +53,14 @@ function removeReactiveProxy(el) {
 }
 
 function setChildrenReactive(elId) {
-    let children = document.getElementBId(elId).querySelectorAll(":scope [reactive]");
+    let children = document.getElementById(elId).querySelectorAll(":scope [reactive]");
     children.forEach(el => {
         setReactiveProxy(el);
     });
 }
 
 function unsetChildrenReactive(elId) {
-    let children = document.getElementBId(elId).querySelectorAll(":scope [reactive]");
+    let children = document.getElementById(elId).querySelectorAll(":scope [reactive]");
     children.forEach(el => {
         removeReactiveProxy(el);
     });
@@ -616,6 +616,7 @@ document.addEventListener("click", async (event) => {
                 button.classList.add('hide');
             } 
         }
+        render(`window-count`, document.querySelector('.window:not(.hide)').length);
         removeActiveWindow();
         return;
     }
