@@ -442,6 +442,25 @@ document.querySelector(`button[evt-target="modal-index"]`).focus();
 // Event listeners
 //
 document.addEventListener("click", async (event) => {
+    // comes first because we need to check the parent
+    if(event.target.getAttribute('evt-click') == 'table-select' || event.target.parentNode.getAttribute('evt-click') == 'table-select'){
+        let input = event.target.querySelector('input');
+        const table = event.target.closest('table');
+        const tr = event.target.closest('tr');
+        if(event.target.parentNode.getAttribute('evt-click') == 'table-select') {
+            input = event.target;
+        }
+        var highlighted = table.querySelector('tr.highlighted');
+        if(highlighted) {
+            highlighted.classList.remove('highlighted');
+        }
+        var checked = table.querySelector('input:checked');
+        if(checked) {
+            checked.checked = false;
+        }
+        tr.classList.add('highlighted');
+        input.checked = true;
+    }
     if(!event.target.getAttribute('evt-click')) {
         const window = event.target.closest(".window");
         //if we click outside the start window we need to close it.
@@ -459,6 +478,31 @@ document.addEventListener("click", async (event) => {
         return;
     }
     event.preventDefault();
+    if(event.target.getAttribute('evt-click') == 'table-sort') {
+        const th = event.target;
+        const table = event.target.closest('table');
+        const tbody = table.querySelector('tbody');
+        const searchRow = event.target.getAttribute('table-sort') == 'has-search';
+        var highlighted = table.querySelector('th.highlighted');
+        if(highlighted) {
+            highlighted.classList.remove('highlighted');
+            highlighted.classList.remove('indicator');
+            highlighted.classList.remove('up');
+        }
+        if(event.target.asc == undefined) {
+            event.target.classList.add('highlighted');
+        } else if(event.target.asc) {
+            event.target.classList.add('highlighted');
+            event.target.classList.add('indicator');
+        } else {
+            event.target.classList.add('highlighted');
+            event.target.classList.add('indicator');
+            event.target.classList.add('up');
+        }
+        Array.from(searchRow ? tbody.querySelectorAll('tr:nth-child(n+2)') : tbody.querySelectorAll('tr'))
+            .sort(comparer(Array.from(th.parentNode.children).indexOf(th), event.target.asc = !event.target.asc))
+            .forEach(tr => tbody.appendChild(tr) );
+    }
     if(event.target.getAttribute('evt-click') == 'show-login') {
         removeActiveWindow();
         document.getElementById('login-dialog').showModal();

@@ -231,3 +231,6 @@ dialog{
     border: 4px solid transparent;
 }
 .has-menu-addr{height: calc(100% - 78px);}
+.full-width{width:100% !important;}
+.table-search input{width:100%;min-width:100%;}
+.pointer,[evt-click="table-sort"]{cursor:pointer;}
