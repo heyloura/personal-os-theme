@@ -524,27 +524,33 @@ document.addEventListener("click", async (event) => {
     if(event.target.getAttribute('evt-click') == 'show-computer') {
         const target = document.getElementById(event.target.getAttribute('evt-target'));
         //if(target == 'documents') {
+        console.log(target)
         makeComputerPopup(target, `
-            <table class="full-width has-shadow">
+            <table>
                 <thead>
-                    <tr>
+                    <tr class="full-width">
                         <th class="action">Select</th>
                         <th evt-click="table-sort" table-sort="has-search">Name</th>
                         <th evt-click="table-sort" table-sort="has-search">Modified</th>
-                        <th evt-click="table-sort" table-sort="has-search" class="action">Notes</th>
+                        <th evt-click="table-sort" table-sort="has-search" class="action">Count</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr><td>&nbsp;</td><td colspan="3" class="table-search has-space"><input evt-input="search" data-element=".notebooks-table-search" type="search" placeholder="Search"></td></tr>
-                    <tr class="notebooks-table-search">
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td colspan="3" class="table-search has-space">
+                            <input evt-input="search" data-element=".{{id}}-table-search" type="search" placeholder="Search">
+                        </td>
+                    </tr>
+                    <tr class="{{id}}-table-search">
                         <td class="action">
                             <div evt-click="table-select" class="field-row">
-                                <input name="notebook-selector" type="radio" data-id="1541" id="notebook-1541-checkbox">
-                                <label for="notebook-1541-checkbox">&nbsp;</label>
+                                <input name="{{id}}-table-blog-selector" type="radio" data-id="blog" id="{{id}}-table-blog-checkbox">
+                                <label for="{{id}}-table-blog-checkbox">&nbsp;</label>
                             </div>
                         </td>
-                        <td table-sort="00.00 Index 📇" class="pointer" evt-click="notebook" data-id="1541" data-title="00.00 Index 📇">
-                            00.00 Index 📇
+                        <td table-sort="Blog" class="pointer" evt-click="computer-navigate" data-id="blog" data-title="Blog">
+                            📂 Blog
                         </td>
                         <td table-sort="2025-01-27T17:53:11+00:00">1/27/2025, 5:53:11 PM</td>
                         <td table-sort="00015">15</td>
@@ -552,12 +558,12 @@ document.addEventListener("click", async (event) => {
                     <tr class="notebooks-table-search">
                         <td class="action">
                             <div evt-click="table-select" class="field-row">
-                                <input name="notebook-selector" type="radio" data-id="3265" id="notebook-3265-checkbox">
-                                <label for="notebook-3265-checkbox">&nbsp;</label>
+                                <input name="{{id}}-table-notes-selector" type="radio" data-id="notes" id="{{id}}-table-notes-checkbox">
+                                <label for="{{id}}-table-notes-checkbox">&nbsp;</label>
                             </div>
                         </td>
-                        <td table-sort="Animal Crossing New Horizons 🦝" class="pointer" evt-click="notebook" data-id="3265" data-title="Animal Crossing New Horizons 🦝">
-                            Animal Crossing New Horizons 🦝
+                        <td table-sort="Notes" class="pointer" evt-click="computer-navigate" data-id="notes" data-title="Notes">
+                            📂 Notes
                         </td>
                         <td table-sort="2025-04-29T21:02:33+00:00">4/29/2025, 9:02:33 PM</td>
                         <td table-sort="00002">2</td>

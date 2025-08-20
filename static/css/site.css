@@ -234,3 +234,5 @@ dialog{
 .full-width{width:100% !important;}
 .table-search input{width:100%;min-width:100%;}
 .pointer,[evt-click="table-sort"]{cursor:pointer;}
+.action{max-width:48px;width:48px;}
+.hide{display:none;}
