@@ -53,15 +53,14 @@ function removeReactiveProxy(el) {
 }
 
 function setChildrenReactive(elId) {
-    let children = $Id(elId).querySelectorAll(":scope [reactive]");
+    let children = document.getElementBId(elId).querySelectorAll(":scope [reactive]");
     children.forEach(el => {
-        
         setReactiveProxy(el);
     });
 }
 
 function unsetChildrenReactive(elId) {
-    let children = $Id(elId).querySelectorAll(":scope [reactive]");
+    let children = document.getElementBId(elId).querySelectorAll(":scope [reactive]");
     children.forEach(el => {
         removeReactiveProxy(el);
     });
@@ -156,7 +155,7 @@ const comparer = (idx, asc) => (a, b) => ((v1, v2) =>
 function makeComputerPopup(type, content) {
     let id = `computer-${type}-${Date.now()}`;
     makePopup(id, '🪟 Computer', `
-            <ul role="menubar" class="can-hover">
+            <ul reactive="{{id}}-menubar" role="menubar" class="can-hover">
                     <li role="menuitem" tabindex="0" aria-haspopup="true">
                         File
                         <ul role="menu">
@@ -214,7 +213,7 @@ function makeComputerPopup(type, content) {
                 </ul>
                 <div style="display:flex;height:calc(100% - 29px);align-items: stretch;">
                     <div class="has-space has-scrollbar">
-                        <ul class="tree-view is-bright" style="height:100%">
+                        <ul class="tree-view" style="height:100%">
                             <li>
                                 <details open>
                                 <summary>⭐ Quick Access</summary>
@@ -247,7 +246,7 @@ function makeComputerPopup(type, content) {
                         </svg>
                     </button>
                 </div>
-                <div class="addr">
+                <div reactive="{{id}}-addr" class="addr">
                     <div>💻</div>
                     <div>Computer</div>
                     <div>System (C:)</div>
@@ -255,11 +254,9 @@ function makeComputerPopup(type, content) {
                     <div>Guest</div>
                     <div>Documents</div>
                 </div>
-                <form>
-                    <input type="search" placeholder="Search Documents" class="winui-searchbox">
-                </form>
             </div>
-            `)
+            `.replaceAll('{{id}}',id));
+    setChildrenReactive(id);
 }
 function makePopup(id, title, content, footer = '', statusbar = '', scrollbar = true, addressbar = '') {
     // if it already exits, open and make active.
@@ -429,7 +426,20 @@ function makeMoveableResizable(id) {
         }
     }
 }
-
+function liveSearch(selector, searchboxEl) {
+    let cards = document.querySelectorAll(selector)
+    let search_query = searchboxEl.value;
+    for (var i = 0; i < cards.length; i++) {
+        if(cards[i].textContent.toLowerCase().includes(search_query.toLowerCase())) {
+            cards[i].classList.remove("hide");
+        } else {
+            cards[i].classList.add("hide");
+        }
+    }
+}
+function growTextArea(el) {
+    el.parentNode.dataset.replicatedValue = el.value;
+}
 //
 // Initial Setup
 //
@@ -441,6 +451,17 @@ document.querySelector(`button[evt-target="modal-index"]`).focus();
 //
 // Event listeners
 //
+document.addEventListener("input", (event) => {  
+    if(!event.target.getAttribute('evt-input')) {
+        return;
+    }
+    if(event.target.getAttribute('evt-input') == 'grow') {
+        growTextArea(event.target);
+    }
+    if(event.target.getAttribute('evt-input') == 'search') {
+        liveSearch(event.target.getAttribute('data-element'), event.target);
+    }
+});
 document.addEventListener("click", async (event) => {
     // comes first because we need to check the parent
     if(event.target.getAttribute('evt-click') == 'table-select' || event.target.parentNode.getAttribute('evt-click') == 'table-select'){
@@ -522,7 +543,7 @@ document.addEventListener("click", async (event) => {
         return;
     }
     if(event.target.getAttribute('evt-click') == 'show-computer') {
-        const target = document.getElementById(event.target.getAttribute('evt-target'));
+        const target = event.target.getAttribute('evt-target');
         //if(target == 'documents') {
         console.log(target)
         makeComputerPopup(target, `
