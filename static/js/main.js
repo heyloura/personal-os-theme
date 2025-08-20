@@ -290,11 +290,12 @@ function makePopup(id, title, content, footer = '', statusbar = '') {
     makeMoveableResizable(id);
     let buttonId = id;
     let buttonTitle = title;
-    if(event.target && event.target.getAttribute('data-src')) {
-        buttonId = buttonId + event.target.getAttribute('data-src');
-        // TODO extend to select image based on src file extension
-        buttonTitle = `🖼️ ${event.target.getAttribute('data-src').split('/').pop()}`
-    }
+    // TODO Fix this
+    // if(event.target && event.target.getAttribute('data-src')) {
+    //     buttonId = buttonId + event.target.getAttribute('data-src');
+    //     // TODO extend to select image based on src file extension
+    //     buttonTitle = `🖼️ ${event.target.getAttribute('data-src').split('/').pop()}`
+    // }
     addWindowButton(buttonId, buttonTitle);
     console.log(document.getElementById('modal-' + id));
     return document.getElementById('modal-' + id);
