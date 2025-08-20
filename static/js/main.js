@@ -156,33 +156,7 @@ const comparer = (idx, asc) => (a, b) => ((v1, v2) =>
 function makeComputerPopup(type, content) {
     let id = `computer-${type}-${Date.now()}`;
     makePopup(id, '🪟 Computer', `
-        <div class="addrbar hassearch">
-                <div class="navigation">
-                    <button class="button round nav-active">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
-                            <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"/>
-                        </svg>
-                    </button>
-                    <button class="button round">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
-                            <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"/>
-                        </svg>
-                    </button>
-                </div>
-                <div class="addr">
-                    <div>💻</div>
-                    <div>Computer</div>
-                    <div>System (C:)</div>
-                    <div>Users</div>
-                    <div>Guest</div>
-                    <div>Documents</div>
-                </div>
-                <form>
-                    <input type="search" placeholder="Search Documents" class="winui-searchbox">
-                </form>
-            </div>
-            <div class="window-body has-menu-addr">
-                <ul role="menubar" class="can-hover">
+            <ul role="menubar" class="can-hover">
                     <li role="menuitem" tabindex="0" aria-haspopup="true">
                         File
                         <ul role="menu">
@@ -259,10 +233,35 @@ function makeComputerPopup(type, content) {
                     <div class="has-space has-scrollbar" style="flex-grow: 1;">
                         ${content}
                     </div>
+                </div>`,'','',false,`
+            <div class="addrbar">
+                <div class="navigation">
+                    <button class="button round nav-active">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"/>
+                        </svg>
+                    </button>
+                    <button class="button round">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"/>
+                        </svg>
+                    </button>
                 </div>
-            </div>`,'','',false)
+                <div class="addr">
+                    <div>💻</div>
+                    <div>Computer</div>
+                    <div>System (C:)</div>
+                    <div>Users</div>
+                    <div>Guest</div>
+                    <div>Documents</div>
+                </div>
+                <form>
+                    <input type="search" placeholder="Search Documents" class="winui-searchbox">
+                </form>
+            </div>
+            `)
 }
-function makePopup(id, title, content, footer = '', statusbar = '', scrollbar = true) {
+function makePopup(id, title, content, footer = '', statusbar = '', scrollbar = true, addressbar = '') {
     // if it already exits, open and make active.
     if(document.getElementById('modal-' + id)) {
         removeActiveWindow();
@@ -280,8 +279,9 @@ function makePopup(id, title, content, footer = '', statusbar = '', scrollbar = 
                     '<button aria-label="Maximize" evt-click="maximize-window"></button>' +
                     '<button aria-label="Close" evt-click="close-window"></button>' +
                 '</div>' +
+                addressbar +
             '</div>' +
-            '<div id="modal-' + id + '-content" class="window-body ' + (scrollbar ? '' : 'has-scrollbar') + ' ' + ( statusbar && footer ? 'has-footer-statusbar' : '' ) + ' ' + ( statusbar ? 'has-statusbar' : '' ) + ' ' + ( footer ? 'has-footer' : '' ) + '">' + content + '</span></div>' +
+            '<div id="modal-' + id + '-content" class="window-body ' + (addressbar ? 'has-menu-addr' : '') + ' ' + (scrollbar ? '' : 'has-scrollbar') + ' ' + ( statusbar && footer ? 'has-footer-statusbar' : '' ) + ' ' + ( statusbar ? 'has-statusbar' : '' ) + ' ' + ( footer ? 'has-footer' : '' ) + '">' + content + '</span></div>' +
             (footer ? '<footer>' + footer + '</footer>' : '') +
             (statusbar ? '<div class="status-bar">' + statusbar + '</div>' : '') +
         '</div>'
