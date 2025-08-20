@@ -230,3 +230,4 @@ dialog{
     margin-left: -13px;
     border: 4px solid transparent;
 }
+.has-menu-addr{height: calc(100% - 78px);}
