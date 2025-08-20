@@ -235,7 +235,7 @@ function makeComputerPopup(type, content) {
                             </li>
                         </ul>
                     </div>
-                    <div class="has-space has-scrollbar" style="flex-grow: 1;">
+                    <div reactive="{{id}}-content" class="has-space has-scrollbar" style="flex-grow: 1;">
                         ${content}
                     </div>
                 </div>`,'','',false,`
@@ -548,10 +548,25 @@ document.addEventListener("click", async (event) => {
         document.getElementById('login-dialog').close();
         return;
     }
+    if(event.target.getAttribute('evt-click') == 'computer-navigate') {
+        const target = event.target.getAttribute('evt-target');
+        const id = event.target.getAttribute('data-id');
+        if(target == 'blog') {
+            // maybe have it as a template in HTML and then pull it in?
+            alert('load blog')
+        } else if(target == 'notes') {
+            render(`${id}-content`, `<progress></progress>`);
+            let fetching = await fetch(`${proxy}/notes/notebooks`, { method: "GET", headers: { "Authorization": "Bearer " + localStorage.getItem('hl-token') } } );
+            const results = await fetching.text();
+            render(`${id}-content`, results);
+        }
+    }
     if(event.target.getAttribute('evt-click') == 'show-computer') {
         const target = event.target.getAttribute('evt-target');
         //if(target == 'documents') {
         console.log(target)
+        // Here we should check if the user is logged in....
+        // and only show the notes if yes....
         makeComputerPopup(target, `
             <table>
                 <thead>
@@ -576,7 +591,7 @@ document.addEventListener("click", async (event) => {
                                 <label for="{{id}}-table-blog-checkbox">&nbsp;</label>
                             </div>
                         </td>
-                        <td table-sort="Blog" class="pointer" evt-click="computer-navigate" data-id="blog" data-title="Blog">
+                        <td table-sort="Blog" class="pointer" evt-click="computer-navigate" data-id="{{id}}" evt-target="blog" data-title="Blog">
                             📂 Blog
                         </td>
                         <td table-sort="2025-01-27T17:53:11+00:00">1/27/2025, 5:53:11 PM</td>
@@ -589,7 +604,7 @@ document.addEventListener("click", async (event) => {
                                 <label for="{{id}}-table-notes-checkbox">&nbsp;</label>
                             </div>
                         </td>
-                        <td table-sort="Notes" class="pointer" evt-click="computer-navigate" data-id="notes" data-title="Notes">
+                        <td table-sort="Notes" class="pointer" evt-click="computer-navigate" data-id="{{id}}" evt-target="notes" data-title="Notes">
                             📂 Notes
                         </td>
                         <td table-sort="2025-04-29T21:02:33+00:00">4/29/2025, 9:02:33 PM</td>
@@ -622,7 +637,7 @@ document.addEventListener("click", async (event) => {
                 button.classList.add('hide');
             } 
         }
-        render(`window-count`, document.querySelector('.window:not(.hide)').length);
+        render(`window-count`, document.querySelector('.window').length - document.querySelector('.window.hide').length);
         removeActiveWindow();
         return;
     }
@@ -671,5 +686,6 @@ function addWindowButton(target, title) {
     }
     document.querySelector('.app-buttons').insertAdjacentHTML('beforeend',`<button evt-click="toggle-window" evt-target="modal-${target}">${title}</button>`);
     document.querySelector(`.app-buttons button[evt-target="modal-${target}"]`).focus();
-    document.querySelector('.fab').innerHTML = `📲 windows (${document.querySelectorAll('.app-buttons button').length - 1})`;
+    render(`window-count`, document.querySelector('.window').length - document.querySelector('.window.hide').length);
+    //document.querySelector('.fab').innerHTML = `📲 windows (${document.querySelectorAll('.app-buttons button').length - 1})`;
 }
