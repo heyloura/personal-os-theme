@@ -479,7 +479,7 @@ document.addEventListener("click", async (event) => {
     }
     if(event.target.getAttribute('evt-click') == 'show-computer') {
         const target = document.getElementById(event.target.getAttribute('evt-target'));
-        if(target == 'documents') {
+        //if(target == 'documents') {
         makeComputerPopup(target, `
             <table class="full-width has-shadow">
                 <thead>
@@ -521,7 +521,7 @@ document.addEventListener("click", async (event) => {
                 </tbody>
             </table>
             `);
-        }
+        //}
         return;
     }
     //show-computer
