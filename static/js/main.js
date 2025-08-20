@@ -13,6 +13,7 @@ document.querySelectorAll('.change-log-item img').forEach((item, i) => {
 
 //
 // --- Quick reactivity
+// concept from https://medium.com/@Mikepicker/unravel-reactivity-in-16-lines-of-vanilla-js-af13b185a733
 //
 const unreact = document.querySelectorAll.bind(document)
 
@@ -259,9 +260,9 @@ function makeComputerPopup(type, content) {
                         ${content}
                     </div>
                 </div>
-            </div>`)
+            </div>`,'','',false)
 }
-function makePopup(id, title, content, footer = '', statusbar = '') {
+function makePopup(id, title, content, footer = '', statusbar = '', scrollbar = true) {
     // if it already exits, open and make active.
     if(document.getElementById('modal-' + id)) {
         removeActiveWindow();
@@ -280,7 +281,7 @@ function makePopup(id, title, content, footer = '', statusbar = '') {
                     '<button aria-label="Close" evt-click="close-window"></button>' +
                 '</div>' +
             '</div>' +
-            '<div id="modal-' + id + '-content" class="window-body has-scrollbar ' + ( statusbar && footer ? 'has-footer-statusbar' : '' ) + ' ' + ( statusbar ? 'has-statusbar' : '' ) + ' ' + ( footer ? 'has-footer' : '' ) + '">' + content + '</span></div>' +
+            '<div id="modal-' + id + '-content" class="window-body ' + (scrollbar ? '' : 'has-scrollbar') + ' ' + ( statusbar && footer ? 'has-footer-statusbar' : '' ) + ' ' + ( statusbar ? 'has-statusbar' : '' ) + ' ' + ( footer ? 'has-footer' : '' ) + '">' + content + '</span></div>' +
             (footer ? '<footer>' + footer + '</footer>' : '') +
             (statusbar ? '<div class="status-bar">' + statusbar + '</div>' : '') +
         '</div>'
