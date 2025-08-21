@@ -454,6 +454,10 @@ function liveSearch(selector, searchboxEl) {
         }
     }
 }
+function strip(html){
+    let doc = new DOMParser().parseFromString(html, 'text/html');
+    return doc.body.textContent || "";
+}
 function growTextArea(el) {
     el.parentNode.dataset.replicatedValue = el.value;
 }
