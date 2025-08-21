@@ -568,15 +568,18 @@ document.addEventListener("click", async (event) => {
         // check to see if already open
 
         // otherwise, make it
+        //document.querySelector(`[reactive="notebook-${notebookId}-note-${id}-content"]`).innerHTML
         makePopup(
             `edit-notebook-${notebookId}-note-${id}`, 
             title, 
-            document.querySelector(`[reactive="notebook-${notebookId}-note-${id}-content"]`).innerHTML, 
+            `<progress></progress>`, 
             '', 
             '', 
             true, 
             '',
             true);
+        document.getElementById(`modal-edit-notebook-${notebookId}-note-${id}`).appendChild(spell());
+        document.querySelector(`#modal-edit-notebook-${notebookId}-note-${id} .spell-container`).innerHTML = document.querySelector(`[reactive="notebook-${notebookId}-note-${id}-content"]`).innerHTML;
     }
     if(event.target.getAttribute('evt-click') == 'computer-navigate-notebook') {
         const target = event.target.getAttribute('evt-target');
