@@ -164,8 +164,8 @@ const comparer = (idx, asc) => (a, b) => ((v1, v2) =>
 //
 function makeComputerPopup(type, content) {
     let id = `computer-${type}-${Date.now()}`;
-    makePopup(id, '🪟 Computer', `
-            <ul reactive="{{id}}-menubar" role="menubar" class="can-hover">
+    let inner = `
+            <ul reactive="${id}-menubar" role="menubar" class="can-hover">
                     <li role="menuitem" tabindex="0" aria-haspopup="true">
                         File
                         <ul role="menu">
@@ -239,10 +239,11 @@ function makeComputerPopup(type, content) {
                             </li>
                         </ul>
                     </div>
-                    <div reactive="{{id}}-content" class="has-space has-scrollbar" style="flex-grow: 1;">
+                    <div reactive="${id}-content" class="has-space has-scrollbar" style="flex-grow: 1;">
                         ${content}
                     </div>
-                </div>`,'','',false,`
+                </div>`;
+    makePopup(id, '🪟 Computer', inner.replaceAll('{{id}}', id), ,'','',false,`
             <div class="addrbar">
                 <div class="navigation">
                     <button class="button round nav-active">
@@ -264,8 +265,7 @@ function makeComputerPopup(type, content) {
                     <div>Guest</div>
                     <div>Documents</div>
                 </div>
-            </div>
-            `.replaceAll('{{id}}',id));
+            </div>`);
     setChildrenReactive(`modal-${id}`);
 }
 function makePopup(id, title, content, footer = '', statusbar = '', scrollbar = true, addressbar = '') {
