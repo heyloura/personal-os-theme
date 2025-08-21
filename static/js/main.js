@@ -552,6 +552,14 @@ document.addEventListener("click", async (event) => {
         document.getElementById('login-dialog').close();
         return;
     }
+    if(event.target.getAttribute('evt-click') == 'computer-navigate-notebook') {
+        const target = event.target.getAttribute('evt-target');
+        const id = event.target.getAttribute('data-id');
+        render(`${id}-content`, `<progress></progress>`);
+        let fetching = await fetch(`${proxy}/notes/notebooks/${target}?id=${id}`, { method: "GET", headers: { "Authorization": "Bearer " + localStorage.getItem('hl-token') } } );
+        const results = await fetching.text();
+        render(`${id}-content`, results);
+    }
     if(event.target.getAttribute('evt-click') == 'computer-navigate') {
         const target = event.target.getAttribute('evt-target');
         const id = event.target.getAttribute('data-id');
@@ -560,7 +568,7 @@ document.addEventListener("click", async (event) => {
             alert('load blog')
         } else if(target == 'notes') {
             render(`${id}-content`, `<progress></progress>`);
-            let fetching = await fetch(`${proxy}/notes/notebooks`, { method: "GET", headers: { "Authorization": "Bearer " + localStorage.getItem('hl-token') } } );
+            let fetching = await fetch(`${proxy}/notes/notebooks?id=${id}`, { method: "GET", headers: { "Authorization": "Bearer " + localStorage.getItem('hl-token') } } );
             const results = await fetching.text();
             render(`${id}-content`, results);
         }
