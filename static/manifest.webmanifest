@@ -1,0 +1,35 @@
+{
+    "name": "Personal OS",
+    "short_name": "Personal OS",
+    "start_url": "/",
+    "display": "standalone",
+    "theme_color": "#000000",
+    "background_color":"#000000",
+    "icons": [
+      {
+        "src": "https://heyloura.com/uploads/2024/3a04add34b.png",
+        "sizes": "512x512",
+        "type": "image/png",
+        "purpose": "any maskable"
+      }],
+      "share_target": {
+        "action": "/share",
+        "method": "POST",
+        "enctype": "multipart/form-data",
+        "params": {
+          "title": "name",
+          "text": "description",
+          "url": "link",
+          "files": [
+            {
+              "name": "photos",
+              "accept": ["image/jpeg", ".jpg"]
+            },
+            {
+                "name": "screenshot",
+                "accept": ["image/png", ".png"]
+            }
+          ]
+        }
+      }
+  }

@@ -51,6 +51,17 @@
         {{ end }}
         <link rel="stylesheet" href="https://unpkg.com/7.css@0.19.0/dist/7.css">
         <link rel="stylesheet" href="{{ "css/site.css" | relURL }}">
+        <link rel="manifest" href="/manifest.webmanifest">
+        <script>
+            if('serviceWorker' in navigator){ 
+                navigator.serviceWorker.register('/js/sw.js'); 
+                window.addEventListener("load", function() {
+                    if (navigator.serviceWorker.controller != null) {
+                        navigator.serviceWorker.controller.postMessage({"command":"trimCache"});
+                    }
+                });
+            }
+        </script>
     </head>
     <body>
         {{ partial "footer.html" . }}
