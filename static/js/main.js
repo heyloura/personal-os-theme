@@ -556,7 +556,7 @@ document.addEventListener("click", async (event) => {
         const target = event.target.getAttribute('evt-target');
         const id = event.target.getAttribute('data-id');
         render(`${id}-content`, `<progress></progress>`);
-        let fetching = await fetch(`${proxy}/notes/notebooks/${target}?id=${id}`, { method: "GET", headers: { "Authorization": "Bearer " + localStorage.getItem('hl-token') } } );
+        let fetching = await fetch(`${proxy}/notes/notebooks/${id}?id=${target}`, { method: "GET", headers: { "Authorization": "Bearer " + localStorage.getItem('hl-token') } } );
         const results = await fetching.text();
         render(`${id}-content`, results);
     }
