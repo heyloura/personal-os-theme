@@ -265,10 +265,18 @@ function makeComputerPopup(type, content) {
                     <div>Guest</div>
                     <div>Documents</div>
                 </div>
-            </div>`);
+            </div>`, true);
     setChildrenReactive(`modal-${id}`);
 }
-function makePopup(id, title, content, footer = '', statusbar = '', scrollbar = true, addressbar = '') {
+function makePopup(
+        id, 
+        title, 
+        content, 
+        footer = '', 
+        statusbar = '', 
+        scrollbar = true, 
+        addressbar = '',
+        bright = false) {
     // if it already exits, open and make active.
     if(document.getElementById('modal-' + id)) {
         removeActiveWindow();
@@ -277,7 +285,7 @@ function makePopup(id, title, content, footer = '', statusbar = '', scrollbar = 
         return document.getElementById('modal-' + id);
     }
     document.body.insertAdjacentHTML('beforeEnd', 
-        '<div class="window glass active" id="modal-'+id+'" role="dialog" aria-labelledby="dialog-title">' +
+        '<div class="window glass active '+(bright ? 'is-bright' : '')+'" id="modal-'+id+'" role="dialog" aria-labelledby="dialog-title">' +
             '<div class="hl-dot hl-right-bottom"></div>' +
             '<div id="modal-' + id + '-titlebar" class="title-bar">' +
                 '<div class="title-bar-text">' + title + '</div>' +
