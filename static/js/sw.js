@@ -1,4 +1,4 @@
-const version = '0.0.02';
+const version = '0.0.03';
 const url = '/'
 
 const coreID = `${version}_core`;
@@ -22,8 +22,8 @@ self.addEventListener('install', function(event) {
         //cache.add(new Request(`https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css`));
 
         // static
-        cache.add(new Request(`${url}manifest.webmanifest`));
-        cache.add(new Request(`${url}favicon.ico`));
+        //cache.add(new Request(`${url}manifest.webmanifest`));
+        //cache.add(new Request(`${url}favicon.ico`));
         //cache.add(new Request(`${url}lillihub-512.png`));
         return cache;
     }));
