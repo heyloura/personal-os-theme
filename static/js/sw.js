@@ -1,5 +1,5 @@
-const version = '0.0.01';
-const url = ''
+const version = '0.0.02';
+const url = '/'
 
 const coreID = `${version}_core`;
 const pageID = `${version}_pages`;
