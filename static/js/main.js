@@ -163,8 +163,8 @@ const comparer = (idx, asc) => (a, b) => ((v1, v2) =>
 // Make window popup
 //
 const documentBaseAddr = `<div>💻</div>
-                    <div>Computer</div>
-                    <div>System (C:)</div>
+                    <!--<div>Computer</div>
+                    <div>System (C:)</div>-->
                     <div>Users</div>
                     <div>Guest</div>
                     <div>Documents</div>`;
@@ -554,10 +554,29 @@ document.addEventListener("click", async (event) => {
     }
     if(event.target.getAttribute('evt-click') == 'process-login') {
         const token = document.getElementById('password').value;
+        const key = document.getElementById('key').value;
         localStorage.setItem('hl-token', token);
+        localStorage.setItem('key', key);
         await processLogin();
         document.getElementById('login-dialog').close();
         return;
+    }
+    if(event.target.getAttribute('evt-click') == 'open-note-editor') {
+        const id = event.target.getAttribute('data-id');
+        const notebookId = event.target.getAttribute('data-notebook-id');
+        const title = document.querySelector(`[reactive="notebook-${notebookId}-note-${id}-title"]`).innerHTML;
+        // check to see if already open
+
+        // otherwise, make it
+        makePopup(
+            `edit-notebook-${notebookId}-note-${id}`, 
+            title, 
+            document.querySelector(`[reactive="notebook-${notebookId}-note-${id}-content"]`).innerHTML, 
+            '', 
+            '', 
+            true, 
+            '',
+            true);
     }
     if(event.target.getAttribute('evt-click') == 'computer-navigate-notebook') {
         const target = event.target.getAttribute('evt-target');
@@ -568,6 +587,7 @@ document.addEventListener("click", async (event) => {
         const results = await fetching.text();
         render(`${target}-content`, results);
         render(`${target}-addr`, `${documentBaseAddr}<div>Notes</div><div>${title}</div>`);
+        render(`taskbar-${target}-button`,title)
         setChildrenReactive(`modal-${target}`);
         if(localStorage.getItem("key")) {
             document.querySelectorAll(`.decryptMe`).forEach(async (element) => {
@@ -584,6 +604,7 @@ document.addEventListener("click", async (event) => {
         } else if(target == 'notes') {
             render(`${id}-content`, `<progress></progress>`);
             render(`${id}-addr`, `${documentBaseAddr}<div>Notes</div>`);
+            render(`taskbar-${id}-button`,`Notes`)
             let fetching = await fetch(`${proxy}/notes/notebooks?id=${id}`, { method: "GET", headers: { "Authorization": "Bearer " + localStorage.getItem('hl-token') } } );
             const results = await fetching.text();
             render(`${id}-content`, results);
@@ -712,7 +733,9 @@ function addWindowButton(target, title) {
         document.querySelector(`.app-buttons button[evt-target="modal-${target}"]`).focus();
         return;
     }
-    document.querySelector('.app-buttons').insertAdjacentHTML('beforeend',`<button evt-click="toggle-window" evt-target="modal-${target}">${title}</button>`);
+    let id = Date.now()
+    document.querySelector('.app-buttons').insertAdjacentHTML('beforeend',`<button id="${id}" reactive="taskbar-${target}-button" evt-click="toggle-window" evt-target="modal-${target}">${title}</button>`);
+    setChildrenReactive(id)
     document.querySelector(`.app-buttons button[evt-target="modal-${target}"]`).focus();
     render(`window-count`, document.querySelector('.window').length - document.querySelector('.window.hide').length);
     //document.querySelector('.fab').innerHTML = `📲 windows (${document.querySelectorAll('.app-buttons button').length - 1})`;
