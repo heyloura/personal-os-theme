@@ -563,10 +563,10 @@ document.addEventListener("click", async (event) => {
     if(event.target.getAttribute('evt-click') == 'computer-navigate-notebook') {
         const target = event.target.getAttribute('evt-target');
         const id = event.target.getAttribute('data-id');
-        render(`${id}-content`, `<progress></progress>`);
+        render(`${target}-content`, `<progress></progress>`);
         let fetching = await fetch(`${proxy}/notes/notebooks/${id}?target=${target}`, { method: "GET", headers: { "Authorization": "Bearer " + localStorage.getItem('hl-token') } } );
         const results = await fetching.text();
-        render(`${id}-content`, results);
+        render(`${target}-content`, results);
     }
     if(event.target.getAttribute('evt-click') == 'computer-navigate') {
         const target = event.target.getAttribute('evt-target');
