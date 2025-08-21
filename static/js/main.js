@@ -567,6 +567,12 @@ document.addEventListener("click", async (event) => {
         let fetching = await fetch(`${proxy}/notes/notebooks/${id}?target=${target}`, { method: "GET", headers: { "Authorization": "Bearer " + localStorage.getItem('hl-token') } } );
         const results = await fetching.text();
         render(`${target}-content`, results);
+        // make reactive
+        if(localStorage.getItem("key")) {
+            document.querySelectorAll(`.decryptMe`).forEach(async (element) => {
+                await decryptNote(element)
+            });                        
+        }
     }
     if(event.target.getAttribute('evt-click') == 'computer-navigate') {
         const target = event.target.getAttribute('evt-target');
@@ -708,4 +714,98 @@ function addWindowButton(target, title) {
     document.querySelector(`.app-buttons button[evt-target="modal-${target}"]`).focus();
     render(`window-count`, document.querySelector('.window').length - document.querySelector('.window.hide').length);
     //document.querySelector('.fab').innerHTML = `📲 windows (${document.querySelectorAll('.app-buttons button').length - 1})`;
+}
+const converter = new showdown.Converter({	
+    metadata: true,
+    parseImgDimensions: true,
+    strikethrough: true,
+    tables: true,
+    ghCodeBlocks: true,
+    smoothLivePreview: true,
+    simpleLineBreaks: true,
+    emoji: true, 
+});
+function hexStringToArrayBuffer(hexString) {
+    const length = hexString.length / 2;
+    const array_buffer = new ArrayBuffer(length);
+    const uint8_array = new Uint8Array(array_buffer);
+
+    for (let i = 0; i < length; i++) {
+        const byte = parseInt(hexString.substr(i * 2, 2), 16);
+        uint8_array[i] = byte;
+    }
+
+    return array_buffer;
+}
+async function decryptWithKey(encryptedText) {
+    const imported_key = localStorage.getItem("key") ? await crypto.subtle.importKey(
+        'raw',
+        hexStringToArrayBuffer(localStorage.getItem("key").substr(4)),
+        { name: 'AES-GCM', length: 256 },
+        true,
+        ['encrypt', 'decrypt']
+    ) : '';
+    const encrypted_data = new Uint8Array(atob(encryptedText).split('').map(char => char.charCodeAt(0)));
+    const iv = encrypted_data.slice(0, 12);
+    const ciphertext = encrypted_data.slice(12);
+
+    const decrypted_buffer = await crypto.subtle.decrypt(
+        { name: 'AES-GCM', iv },
+        imported_key,
+        ciphertext
+    );
+
+    const decoder = new TextDecoder();
+    const decrypted_text = decoder.decode(decrypted_buffer);
+    return decrypted_text;
+}
+async function encryptWithKey(text) {
+    const imported_key = localStorage.getItem("key") ? await crypto.subtle.importKey(
+        'raw',
+        hexStringToArrayBuffer(localStorage.getItem("key").substr(4)),
+        { name: 'AES-GCM', length: 256 },
+        true,
+        ['encrypt', 'decrypt']
+    ) : '';
+    const iv = crypto.getRandomValues(new Uint8Array(12));
+    const encoder = new TextEncoder();
+    const plaintext_buffer = encoder.encode(text);
+
+    const ciphertext_buffer = await crypto.subtle.encrypt(
+        { name: 'AES-GCM', iv },
+        imported_key,
+        plaintext_buffer
+    );
+
+    const encrypted_data = new Uint8Array([...iv, ...new Uint8Array(ciphertext_buffer)]);
+    const base64_encoded = btoa(String.fromCharCode(...encrypted_data));
+    return base64_encoded;
+}
+async function decryptNote(noteEL) {
+    const noteId = noteEL.getAttribute('data-id');
+    const notebookId = noteEL.getAttribute('data-notebook-id');
+    const markdown = await decryptWithKey(noteEL.innerHTML);
+    const html = converter.makeHtml(markdown);
+    // if(rawEl) {
+    //     rawEl.value = markdown;
+    // }
+    noteEL.innerHTML = html;
+
+    // now we need to render the changes across all document windows
+    
+
+
+    // const metadata = converter.getMetadata();
+    // const title = metadata && metadata.title ? metadata.title.length > 25 ? metadata.title.substring(0,25) + '...' : metadata.title : strip(html).substring(0,25) + '...';
+    // if(titleEl) {
+    //     titleEl.innerHTML = title
+    //     titleEl.setAttribute('data-title',title)
+    // }
+    // if(metaEl){
+    //     metaEl.innerHTML = '<table>' + objectToTableRows(metadata) + '</table>';
+    // }
+    // let tags = metadata && metadata.tags ? metadata.tags.replace('[','').replace(']','').split(',') : [];
+    // if(tagsEl) {
+    //     tagsEl.innerHTML = metadata && metadata.tags ? tags.map(t => '#' + t).join(', ') : ''; 
+    // }
 }
