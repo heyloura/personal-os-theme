@@ -507,7 +507,7 @@ document.addEventListener("click", async (event) => {
         if(window) {
             window.classList.add('active');
             if(document.querySelector(`button[evt-target="${window.getAttribute('id')}"]`)) {
-                document.querySelector(`button[evt-target="${window.getAttribute('id')}"]`).focus();
+                //document.querySelector(`button[evt-target="${window.getAttribute('id')}"]`).focus();
             }
         }
         if(window != start) {
