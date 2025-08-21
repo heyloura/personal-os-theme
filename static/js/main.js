@@ -567,7 +567,7 @@ document.addEventListener("click", async (event) => {
         let fetching = await fetch(`${proxy}/notes/notebooks/${id}?target=${target}`, { method: "GET", headers: { "Authorization": "Bearer " + localStorage.getItem('hl-token') } } );
         const results = await fetching.text();
         render(`${target}-content`, results);
-        // make reactive
+        setChildrenReactive(`modal-${target}`);
         if(localStorage.getItem("key")) {
             document.querySelectorAll(`.decryptMe`).forEach(async (element) => {
                 await decryptNote(element)
@@ -789,22 +789,19 @@ async function decryptNote(noteEL) {
     // if(rawEl) {
     //     rawEl.value = markdown;
     // }
-    noteEL.innerHTML = html;
+    //noteEL.innerHTML = html;
 
     // now we need to render the changes across all document windows
-    
+    render(`notebook-${notebookId}-note-${noteId}-content`, html);
 
-
-    // const metadata = converter.getMetadata();
-    // const title = metadata && metadata.title ? metadata.title.length > 25 ? metadata.title.substring(0,25) + '...' : metadata.title : strip(html).substring(0,25) + '...';
-    // if(titleEl) {
-    //     titleEl.innerHTML = title
-    //     titleEl.setAttribute('data-title',title)
-    // }
+    const metadata = converter.getMetadata();
+    const title = metadata && metadata.title ? metadata.title.length > 25 ? metadata.title.substring(0,25) + '...' : metadata.title : strip(html).substring(0,25) + '...';
+    render(`notebook-${notebookId}-note-${noteId}-title`, title);
     // if(metaEl){
     //     metaEl.innerHTML = '<table>' + objectToTableRows(metadata) + '</table>';
     // }
-    // let tags = metadata && metadata.tags ? metadata.tags.replace('[','').replace(']','').split(',') : [];
+    let tags = metadata && metadata.tags ? metadata.tags.replace('[','').replace(']','').split(',') : [];
+    render(`notebook-${notebookId}-note-${noteId}-tags`, metadata && metadata.tags ? tags.map(t => '#' + t).join(', ') : '');
     // if(tagsEl) {
     //     tagsEl.innerHTML = metadata && metadata.tags ? tags.map(t => '#' + t).join(', ') : ''; 
     // }
