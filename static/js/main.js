@@ -162,6 +162,12 @@ const comparer = (idx, asc) => (a, b) => ((v1, v2) =>
 //
 // Make window popup
 //
+const documentBaseAddr = `<div>💻</div>
+                    <div>Computer</div>
+                    <div>System (C:)</div>
+                    <div>Users</div>
+                    <div>Guest</div>
+                    <div>Documents</div>`;
 function makeComputerPopup(type, content) {
     let id = `computer-${type}-${Date.now()}`;
     let inner = `
@@ -223,7 +229,7 @@ function makeComputerPopup(type, content) {
                 </ul>
                 <div style="display:flex;height:calc(100% - 29px);align-items: stretch;">
                     <div class="has-space has-scrollbar">
-                        <ul class="tree-view" style="height:100%">
+                        <ul class="tree-view" style="height:100%;width:150px;">
                             <li>
                                 <details open>
                                 <summary>⭐ Quick Access</summary>
@@ -257,14 +263,7 @@ function makeComputerPopup(type, content) {
                         </svg>
                     </button>
                 </div>
-                <div reactive="{{id}}-addr" class="addr">
-                    <div>💻</div>
-                    <div>Computer</div>
-                    <div>System (C:)</div>
-                    <div>Users</div>
-                    <div>Guest</div>
-                    <div>Documents</div>
-                </div>
+                <div reactive="${id}-addr" class="addr">${documentBaseAddr}</div>
             </div>`, true);
     setChildrenReactive(`modal-${id}`);
 }
@@ -563,10 +562,12 @@ document.addEventListener("click", async (event) => {
     if(event.target.getAttribute('evt-click') == 'computer-navigate-notebook') {
         const target = event.target.getAttribute('evt-target');
         const id = event.target.getAttribute('data-id');
+        const title = event.target.getAttribute('data-title');
         render(`${target}-content`, `<progress></progress>`);
         let fetching = await fetch(`${proxy}/notes/notebooks/${id}?target=${target}`, { method: "GET", headers: { "Authorization": "Bearer " + localStorage.getItem('hl-token') } } );
         const results = await fetching.text();
         render(`${target}-content`, results);
+        render(`${target}-addr`, `${documentBaseAddr}<div>Notes</div><div>${title}</div>`);
         setChildrenReactive(`modal-${target}`);
         if(localStorage.getItem("key")) {
             document.querySelectorAll(`.decryptMe`).forEach(async (element) => {
@@ -582,6 +583,7 @@ document.addEventListener("click", async (event) => {
             alert('load blog')
         } else if(target == 'notes') {
             render(`${id}-content`, `<progress></progress>`);
+            render(`${id}-addr`, `${documentBaseAddr}<div>Notes</div>`);
             let fetching = await fetch(`${proxy}/notes/notebooks?id=${id}`, { method: "GET", headers: { "Authorization": "Bearer " + localStorage.getItem('hl-token') } } );
             const results = await fetching.text();
             render(`${id}-content`, results);
