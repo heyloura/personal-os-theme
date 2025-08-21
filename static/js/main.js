@@ -243,7 +243,7 @@ function makeComputerPopup(type, content) {
                         ${content}
                     </div>
                 </div>`;
-    makePopup(id, '🪟 Computer', inner.replaceAll('{{id}}', id), ,'','',false,`
+    makePopup(id, '🪟 Computer', inner.replaceAll('{{id}}', id),'','',false,`
             <div class="addrbar">
                 <div class="navigation">
                     <button class="button round nav-active">
