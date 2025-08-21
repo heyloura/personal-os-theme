@@ -129,6 +129,8 @@ h5,h6{font-size:1em;}
     .app-buttons button:not(.fab) {display:none;}
     .active{border:none}
     .hl-dot{display:none}
+    .window{height:min(712px,calc(80vh - 64px));width:min(375px,90vw);overflow:hidden;}
+    #modal-start{overflow:visible;position:fixed;top:unset;bottom:calc(min(712px,calc(80vh - 118px)) / -2);left:calc(min(375px, calc(100% - 37px)) / 2);border:0;}
 }
 dialog{
     left: 0;
