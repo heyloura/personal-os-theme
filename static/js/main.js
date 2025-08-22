@@ -585,7 +585,7 @@ document.addEventListener("click", async (event) => {
         var modal = document.getElementById(`modal-edit-notebook-${notebookId}-note-${id}-content`)
         console.log(spell().outerHTML);
         modal.innerHTML = spell().outerHTML;
-        document.querySelector(`#modal-edit-notebook-${notebookId}-note-${id} .spell-container`).innerHTML = document.querySelector(`[reactive="notebook-${notebookId}-note-${id}-content"]`).innerHTML;
+        document.querySelector(`#modal-edit-notebook-${notebookId}-note-${id} .spell-content`).innerHTML = document.querySelector(`[reactive="notebook-${notebookId}-note-${id}-content"]`).innerHTML;
     }
     if(event.target.getAttribute('evt-click') == 'computer-navigate-notebook') {
         const target = event.target.getAttribute('evt-target');
