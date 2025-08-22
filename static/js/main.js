@@ -582,8 +582,9 @@ document.addEventListener("click", async (event) => {
             true, 
             '',
             true);
-        var modal = document.getElementById(`modal-edit-notebook-${notebookId}-note-${id}`)
-        modal.appendChild(spell());
+        var modal = document.getElementById(`modal-edit-notebook-${notebookId}-note-${id}-content`)
+        console.log(spell().outerHTML);
+        modal.innerHTML = spell().outerHTML;
         document.querySelector(`#modal-edit-notebook-${notebookId}-note-${id} .spell-container`).innerHTML = document.querySelector(`[reactive="notebook-${notebookId}-note-${id}-content"]`).innerHTML;
     }
     if(event.target.getAttribute('evt-click') == 'computer-navigate-notebook') {
