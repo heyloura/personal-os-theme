@@ -49,8 +49,9 @@
         {{ range $filename := .Site.Params.plugins_html }}
         {{ partial $filename $ }}
         {{ end }}
-        <link rel="stylesheet" href="https://unpkg.com/7.css@0.19.0/dist/7.css">
+        <link rel="stylesheet" href="css/7.css">
         <link rel="stylesheet" href="{{ "css/site.css" | relURL }}">
+        <link rel="stylesheet" type="text/css" href="css/spell.css">
         <link rel="manifest" href="/manifest.webmanifest">
         <script>
             if('serviceWorker' in navigator){ 

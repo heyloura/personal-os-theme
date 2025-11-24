@@ -136,7 +136,7 @@ async function processLogin() {
     //     localStorage.removeItem('hl-token');
     //     makePopup('login-error', 'Error logging in', results.error);
     // }
-    makePopup('mentions', 'Recent Mentions', JSON.stringify(results));
+    makePopup('mentions', '👥 Live Messenger', results);
 }
 function removeActiveWindow() {
     const activeWindow = document.querySelector('.window.active');
@@ -485,11 +485,11 @@ document.addEventListener("input", (event) => {
 });
 document.addEventListener("click", async (event) => {
     // comes first because we need to check the parent
-    if(event.target.getAttribute('evt-click') == 'table-select' || event.target.parentNode.getAttribute('evt-click') == 'table-select'){
+    if(event.target.getAttribute('evt-click') == 'table-select' || (event.target.parentNode && event.target.parentNode.getAttribute('evt-click') == 'table-select')){
         let input = event.target.querySelector('input');
         const table = event.target.closest('table');
         const tr = event.target.closest('tr');
-        if(event.target.parentNode.getAttribute('evt-click') == 'table-select') {
+        if(event.target.parentNode && event.target.parentNode.getAttribute('evt-click') == 'table-select') {
             input = event.target;
         }
         var highlighted = table.querySelector('tr.highlighted');
@@ -576,14 +576,8 @@ document.addEventListener("click", async (event) => {
         makePopup(
             `edit-notebook-${notebookId}-note-${id}`, 
             title, 
-            `<progress></progress>`, 
-            '', 
-            '', 
-            true, 
-            '',
-            true);
+            `<progress></progress>`);
         var modal = document.getElementById(`modal-edit-notebook-${notebookId}-note-${id}-content`)
-        console.log(spell().outerHTML);
         modal.innerHTML = spell().outerHTML;
         document.querySelector(`#modal-edit-notebook-${notebookId}-note-${id} .spell-content`).innerHTML = document.querySelector(`[reactive="notebook-${notebookId}-note-${id}-content"]`).innerHTML;
     }
