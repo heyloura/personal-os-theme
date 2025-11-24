@@ -1,4 +1,3 @@
-// https://github.com/sylvainpolletvillard/spell
 function spell() {
 	let exec = (command, value=null) => document.execCommand(command, false, value)
 	let ensureHTTP = url => /^https?:\//.test(url) ? url : `http://${url}`
