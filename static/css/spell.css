@@ -79,11 +79,11 @@
 
 @font-face {
 	font-family: "spell-icons";
-	src:url("fonts/spell-icons.eot");
-	src:url("fonts/spell-icons.eot?#iefix") format("embedded-opentype"),
-	url("fonts/spell-icons.woff") format("woff"),
-	url("fonts/spell-icons.ttf") format("truetype"),
-	url("fonts/spell-icons.svg#spell-icons") format("svg");
+	src:url("/fonts/spell-icons.eot");
+	src:url("/fonts/spell-icons.eot?#iefix") format("embedded-opentype"),
+	url("/fonts/spell-icons.woff") format("woff"),
+	url("/fonts/spell-icons.ttf") format("truetype"),
+	url("/fonts/spell-icons.svg#spell-icons") format("svg");
 	font-weight: normal;
 	font-style: normal;
 
