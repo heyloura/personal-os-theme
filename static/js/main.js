@@ -576,7 +576,7 @@ document.addEventListener("click", async (event) => {
         makePopup(
             `edit-notebook-${notebookId}-note-${id}`, 
             title, 
-            `<progress></progress>`);
+            `<div role="progressbar" class="marquee"></div>`);
         var modal = document.getElementById(`modal-edit-notebook-${notebookId}-note-${id}-content`)
         modal.innerHTML = spell().outerHTML;
         document.querySelector(`#modal-edit-notebook-${notebookId}-note-${id} .spell-content`).innerHTML = document.querySelector(`[reactive="notebook-${notebookId}-note-${id}-content"]`).innerHTML;
@@ -585,7 +585,7 @@ document.addEventListener("click", async (event) => {
         const target = event.target.getAttribute('evt-target');
         const id = event.target.getAttribute('data-id');
         const title = event.target.getAttribute('data-title');
-        render(`${target}-content`, `<progress></progress>`);
+        render(`${target}-content`, `<div role="progressbar" class="marquee"></div>`);
         let fetching = await fetch(`${proxy}/notes/notebooks/${id}?target=${target}`, { method: "GET", headers: { "Authorization": "Bearer " + localStorage.getItem('hl-token') } } );
         const results = await fetching.text();
         render(`${target}-content`, results);
@@ -605,7 +605,7 @@ document.addEventListener("click", async (event) => {
             // maybe have it as a template in HTML and then pull it in?
             alert('load blog')
         } else if(target == 'notes') {
-            render(`${id}-content`, `<progress></progress>`);
+            render(`${id}-content`, `<div role="progressbar" class="marquee"></div>`);
             render(`${id}-addr`, `${documentBaseAddr}<div>Notes</div>`);
             render(`taskbar-${id}-button`,`Notes`)
             let fetching = await fetch(`${proxy}/notes/notebooks?id=${id}`, { method: "GET", headers: { "Authorization": "Bearer " + localStorage.getItem('hl-token') } } );
